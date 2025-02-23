@@ -5,6 +5,7 @@ from environs import Env
 @dataclass
 class TgBot:
     token: str
+    chat_id: int
     admin_ids: list[int]
 
 @dataclass
@@ -25,6 +26,7 @@ def load_config(path: str | None = None) -> ConfigEnv:
     return ConfigEnv(
         tg_bot=TgBot(
             token=env('BOT_TOKEN'),
+            chat_id=env("CHAT_ID"),
             admin_ids=list(map(int, env.list('ADMIN_IDS')))
         ),
         redis=Redis(
