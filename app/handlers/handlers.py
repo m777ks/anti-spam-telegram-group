@@ -11,5 +11,5 @@ logger = logging.getLogger(__name__)
 @router.message(CommandStart())
 async def command_start_handler(message: types.Message):
 
-    await message.answer(text=f'<a href="https://t.me/tbilisi_rentflat/154934">правила чата</a>!\n'
-                      f'По всем вопросам к <a href="https://t.me/realtyBatumiN1">администратору группы</a>')
+    await message.answer(text=f'<a href="https://t.me/tbilisi_rentflat/154934">Правила чата</a>!\n'
+                      f'По всем вопросам к <a href="https://t.me/realtyBatumiN1">администратору группы</a>', parse_mode='html')

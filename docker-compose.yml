@@ -1,0 +1,29 @@
+name: anti-spam-tbilisi
+
+
+services:
+  redis:
+    image: redis:7
+    entrypoint: redis-server --requirepass ${REDIS_PASSWORD}
+    env_file:
+      - .env
+    ports:
+      - "6380:6379"
+    volumes:
+      - redis_data:/data
+
+  bot:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    entrypoint: ["./start.sh", "bot"]
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app
+    depends_on:
+      - redis
+
+
+volumes:
+  redis_data:
