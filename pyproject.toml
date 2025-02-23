@@ -1,0 +1,12 @@
+[project]
+name = "anti-spam-bot"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "aiogram>=3.18.0",
+    "environs>=14.1.1",
+    "limited-aiogram>=1.0.2",
+    "redis>=5.2.1",
+]
