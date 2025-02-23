@@ -21,7 +21,7 @@ redis = Redis(host=config.redis.host, port=config.redis.port, password=config.re
 
 
 ADMIN_IDS = config.tg_bot.admin_ids
-CHAT = -1001962669719
+CHAT = config.tg_bot.chat_id
 
 router.message.middleware(AlbumMiddleware(0.5, ADMIN_IDS))
 
@@ -84,7 +84,7 @@ async def accept_photos(message: Message, bot: Bot, album: list = None):
         await bot.delete_messages(chat_id=chat_id, message_ids=message_ids_not_caption[5:])
         logger.info(f'Удалил лишние фото {user_id}:{user_name}')
 
-    if len(text) > 1500:
+    if len(text) > 600:
         """Проверка длинны шрифта"""
 
         await bot.delete_messages(chat_id=chat_id, message_ids=message_ids_all)
