@@ -120,7 +120,7 @@ async def accept_photos(message: Message, bot: Bot, album: list = None):
 async def new_members(message: Message):
     pass
 
-@router.message(F.chat.id == CHAT)
+@router.message(F.chat.id == int(CHAT))
 async def update_revizor(message: Message, bot: Bot):
     user_id = message.from_user.id
     chat_id = message.chat.id
