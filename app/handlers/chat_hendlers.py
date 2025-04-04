@@ -133,61 +133,67 @@ async def update_revizor(message: Message, bot: Bot):
     if user_id in ADMIN_IDS:
         return
 
-    if validate_text(text=text, censorship_list=censorship_list):
-        """Проверка на мат"""
-        text_error = 'Текст содержит ненормативную лексику!'
-        await message.delete()
-        await handle_violation(message, user_name, user_id, text_error)
-        logger.info(f'Пользователь не прошел проверку на мат {user_id}:{user_name}')
-        return
+    text_error = ''
+    await message.delete()
+    await handle_violation(message, user_name, user_id, text_error)
+    logger.info(f'Проверка пустого сообщения {user_id}:{user_name}')
+    return
 
-    if validate_text(text=text, censorship_list=keywords_client):
-        logger.info(f'Пропускает допустимые слова {user_id}:{user_name}')
-        """Проверка на сниму"""
-        return
-    # if config.subscription.subscript:
-    #     if not await DataBase.check_user_exists(user_id):
-    #         """Проверка на наличие в БД"""
-    #         await message.delete()
-    #         await user_no_subscription(message, user_name, user_id)
-    #         logger.info(f'Пользователь не прошел проверку на БД {user_id}:{user_name}')
-    #         return
+    # if validate_text(text=text, censorship_list=censorship_list):
+    #     """Проверка на мат"""
+    #     text_error = 'Текст содержит ненормативную лексику!'
+    #     await message.delete()
+    #     await handle_violation(message, user_name, user_id, text_error)
+    #     logger.info(f'Пользователь не прошел проверку на мат {user_id}:{user_name}')
+    #     return
     #
-    #     if not await DataBase.get_subscription_status(user_id):
-    #         """Проверка статуса тарифа"""
+    # if validate_text(text=text, censorship_list=keywords_client):
+    #     logger.info(f'Пропускает допустимые слова {user_id}:{user_name}')
+    #     """Проверка на сниму"""
+    #     return
+    # # if config.subscription.subscript:
+    # #     if not await DataBase.check_user_exists(user_id):
+    # #         """Проверка на наличие в БД"""
+    # #         await message.delete()
+    # #         await user_no_subscription(message, user_name, user_id)
+    # #         logger.info(f'Пользователь не прошел проверку на БД {user_id}:{user_name}')
+    # #         return
+    # #
+    # #     if not await DataBase.get_subscription_status(user_id):
+    # #         """Проверка статуса тарифа"""
+    # #         await message.delete()
+    # #         await user_no_subscription(message, user_name, user_id)
+    # #         logger.info(f'Пользователь не прошел проверку на тариф {user_id}:{user_name}')
+    # #         return
+    # if len(text) == 0:
+    #     """Проверка пустого сообщения"""
+    #     text_error = ''
+    #     await message.delete()
+    #     await handle_violation(message, user_name, user_id, text_error)
+    #     logger.info(f'Проверка пустого сообщения {user_id}:{user_name}')
+    #     return
+    # if len(text) > 600:
+    #     """Проверка длинны шрифта"""
+    #     text_error = 'Текст превышает 600 символов.'
+    #     await message.delete()
+    #     await handle_violation(message, user_name, user_id, text_error)
+    #     logger.info(f'Пользователь не прошел проверку на количество символов {user_id}:{user_name}')
+    #     return
+    # if message.entities or message.caption_entities:
+    #     if await check_for_url(message):
+    #         """Проверка на ссылки"""
+    #         text_error = 'Запрещено указывать ссылки на сторонние группы / сайты.'
     #         await message.delete()
-    #         await user_no_subscription(message, user_name, user_id)
-    #         logger.info(f'Пользователь не прошел проверку на тариф {user_id}:{user_name}')
+    #         await handle_violation(message, user_name, user_id, text_error)
+    #         logger.info(f'Пользователь не прошел проверку на ссылки в тексте {user_id}:{user_name}')
     #         return
-    if len(text) == 0:
-        """Проверка пустого сообщения"""
-        text_error = ''
-        await message.delete()
-        await handle_violation(message, user_name, user_id, text_error)
-        logger.info(f'Проверка пустого сообщения {user_id}:{user_name}')
-        return
-    if len(text) > 600:
-        """Проверка длинны шрифта"""
-        text_error = 'Текст превышает 600 символов.'
-        await message.delete()
-        await handle_violation(message, user_name, user_id, text_error)
-        logger.info(f'Пользователь не прошел проверку на количество символов {user_id}:{user_name}')
-        return
-    if message.entities or message.caption_entities:
-        if await check_for_url(message):
-            """Проверка на ссылки"""
-            text_error = 'Запрещено указывать ссылки на сторонние группы / сайты.'
-            await message.delete()
-            await handle_violation(message, user_name, user_id, text_error)
-            logger.info(f'Пользователь не прошел проверку на ссылки в тексте {user_id}:{user_name}')
-            return
-    if validate_links(text):
-        """Проверка на ссылки"""
-        text_error = 'Запрещено указывать ссылки на сторонние группы / сайты.'
-        await message.delete()
-        await handle_violation(message, user_name, user_id, text_error)
-        logger.info(f'Пользователь не прошел проверку на ссылки в тексте {user_id}:{user_name}')
-        return
+    # if validate_links(text):
+    #     """Проверка на ссылки"""
+    #     text_error = 'Запрещено указывать ссылки на сторонние группы / сайты.'
+    #     await message.delete()
+    #     await handle_violation(message, user_name, user_id, text_error)
+    #     logger.info(f'Пользователь не прошел проверку на ссылки в тексте {user_id}:{user_name}')
+    #     return
 
 
 async def check_for_url(message: Message):
